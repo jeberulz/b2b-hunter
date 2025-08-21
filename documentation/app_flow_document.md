@@ -1,0 +1,41 @@
+# App Flow Document for b2b-hunter
+
+## Onboarding and Sign-In/Sign-Up
+A new visitor arrives at the b2b-hunter landing page by typing the URL or following a marketing link. The landing page introduces the core value proposition of fast company searches, data enrichment, and contact verification. A prominent "Sign Up" button invites the visitor to begin. When clicked, the user sees a sign-up form requesting an email address and password. After entering valid credentials and accepting the terms of service, the user clicks “Create Account,” which triggers an email verification message. The user opens their inbox, clicks the verification link, and is then redirected back to the b2b-hunter site.
+
+If the user already has credentials, they can click “Sign In” instead. The sign-in page asks for email and password. Upon entering valid details, the user is taken to the main dashboard. If they enter incorrect information, a clear error message explains that the email or password is invalid and invites them to try again or click “Forgot Password.” The “Forgot Password” flow prompts the user to supply their email; then the system sends a reset link. Clicking that link leads the user to a secure reset page where they choose a new password. After resetting, they return to the sign-in page. A “Sign Out” link appears in the user menu on every page once authenticated, allowing the user to securely end their session.
+
+## Main Dashboard or Home Page
+Immediately after sign-in, the user sees the main dashboard. A top header displays the b2b-hunter logo, a notifications icon, and a user avatar with a dropdown for account settings and sign out. On the left side, a fixed sidebar lists the main sections: Dashboard, Search Companies, Integrations, Exports, and Settings. The dashboard area shows three summary widgets: recent searches completed, total enriched leads, and current verification success rate. Below the widgets, a chart displays a timeline of enrichment activity. Every element on the dashboard is clickable—selecting a widget or chart segment takes the user to the relevant section, such as the search history or analytics page.
+
+## Detailed Feature Flows and Page Transitions
+
+### Search Companies and Filtering
+When the user clicks "Search Companies" in the sidebar, the app transitions to a filter panel on the left and an empty results grid on the right. The filter panel lists fields for industry vertical, company size range, geographic location radius, revenue estimates, and keyword matching. As the user adjusts filter values, the system validates input ranges in real time. Clicking the “Search” button launches a query to Elasticsearch. While the query runs, a loading spinner appears in the results area. When results return, clickable company cards populate the grid, each showing name, brief description, and a summary of enrichment status.
+
+### Company Profile Enrichment and Detail View
+Clicking on any company card opens a profile page in the same window. The profile page has tabs for "Overview," "Enrichment Data," and "Contacts." Under "Overview," the user sees headquarters address, founding date, and employee count trends. The “Enrichment Data” tab lists social media links and source references. The "Contacts" tab shows all extracted email addresses and phone numbers, each with a confidence score and a source tag. A sidebar action button labeled "Verify Now" lets the user re-run verification on selected contacts, updating confidence scores in real time.
+
+### Data Export and Integration
+From either the profile page or the results grid, the user can select individual or multiple companies by checking boxes. A fixed panel titled "Export Options" appears at the bottom of the screen. The user clicks "Export", and a modal window opens showing format choices: CSV or JSON. The user also selects which data fields to include via checkboxes in the modal. After they click “Confirm Export,” the system generates the file and triggers a download prompt. Alternatively, in the same modal the user can choose a configured CRM integration. Selecting the CRM option presents a dropdown of connected services. Once chosen, clicking “Push to CRM” sends a webhook or API call to the external system, and the app displays a success or failure notification.
+
+### Dashboard and Analytics
+From the sidebar, clicking "Dashboard" updates the main view to show deeper analytics. Interactive charts allow the user to filter by date range, search type, or integration target. Hovering over any data point displays a tooltip with exact numbers. The user can also switch to a table view by selecting a toggle in the chart header. Every navigation within analytics updates the URL with query parameters so the user can bookmark or share specific views.
+
+### Admin Panel (Advanced Workflow)
+If the user has an administrator role, an additional "Admin" link appears in the sidebar. Clicking it navigates to a user management page listing all registered users. Each user record shows name, email, role, and status. The admin can click an “Edit” button to change roles or deactivate accounts via a form presented in a modal. All changes require confirmation and produce a log entry visible under the "Audit Logs" tab. From audit logs, the admin can filter by date or action type to review system events.
+
+## Settings and Account Management
+Every user can click their avatar in the top header and choose "Settings."
+
+In the account settings page, the user sees sections for "Profile," "Security," and "Billing." Under "Profile," they can update display name, phone number, and time zone. In the "Security" section, they have options to change their password and enable two-factor authentication via an authenticator app. If the user clicks "Enable 2FA," a QR code displays for them to scan and confirm by providing a one-time code. The "Billing" tab shows the current plan, usage statistics, and payment method. The user can click "Upgrade Plan" to see available subscription tiers in a modal, select a new plan, and enter credit card details through a secure Stripe form. Once payment is successful, the billing tab reflects the new plan and next renewal date.
+
+After making changes in any settings section, a green confirmation banner appears at the top of the page. Clicking "Back to Dashboard" in the sidebar returns the user to their main workflow without losing any unsaved work in search or analytics.
+
+## Error States and Alternate Paths
+If the user enters an invalid value in a search filter—such as a negative revenue range or a location radius beyond system limits—a red inline message appears beneath the relevant field explaining the issue. Submitting the form with errors prevents the search until corrections are made. When the application loses connectivity to the backend, a full-screen error overlay appears with a message about the network issue and a "Retry" button that reattempts the last action once connectivity returns.
+
+During sign-in, incorrect credentials trigger an inline error that reads "Email or password is incorrect. Please try again." If the user fails to verify their email within 24 hours and tries to sign in, they see a prompt to resend the verification link. A failed payment during plan upgrade displays an error message from the payment gateway and offers the user the choice to re-enter their card details. Any attempt to access an admin page without sufficient privileges redirects the user to a "403 Forbidden" page with a brief explanation and a link back to the dashboard.
+
+## Conclusion and Overall App Journey
+From landing on the homepage through account creation, b2b-hunter guides new users toward discovering relevant companies quickly with advanced filters. After building a list of prospects, users drill into enriched profiles, verify contact data, and seamlessly export or integrate results with their CRM. Administrators maintain control over user access and system logs, while all users can manage their own settings and subscription. Throughout every step, clear navigation, consistent error handling, and real-time feedback ensure that sales and marketing teams achieve their goal of building high-quality B2B lead lists with minimal friction.
